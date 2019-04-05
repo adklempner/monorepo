@@ -27,7 +27,7 @@
     "ethereum-waffle": "2.0.8",
     "ganache-cli": "6.4.1",
     "jest": "24.6.0",
-    "rollup": "^1.7.4",
+    "rollup": "^1.9.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-typescript2": "^0.20.1",
     "truffle": "5.0.11",
