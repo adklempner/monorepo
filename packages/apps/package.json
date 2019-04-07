@@ -28,7 +28,7 @@
     "solc": "0.5.7",
     "ethers": "4.0.27",
     "ethlint": "^1.2.3",
-    "mocha": "^6.0.0",
+    "mocha": "^6.1.0",
     "truffle": "5.0.11",
     "truffle-deploy-registry": "0.5.1",
     "truffle-hdwallet-provider": "1.0.6",
