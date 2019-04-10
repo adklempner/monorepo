@@ -3,7 +3,7 @@ import {
   ETHBucketAppState,
   NetworkContext
 } from "@counterfactual/types";
-import { AddressZero, Zero } from "ethers/constants";
+import { Zero } from "ethers/constants";
 
 import {
   InstallCommitment,
@@ -177,11 +177,6 @@ function addInstallRefundAppCommitmentToContext(
         "tuple(address recipient, address multisig,  uint256 threshold)",
       actionEncoding: undefined
     },
-    {
-      assetType: AssetType.ETH,
-      limit: amount,
-      token: AddressZero
-    },
     false,
     stateChannel.numInstalledApps,
     stateChannel.rootNonceValue,
@@ -251,7 +246,6 @@ function addUninstallRefundAppCommitmentToContext(
     stateChannel.multisigAddress,
     stateChannel.multisigOwners,
     freeBalance.identity,
-    freeBalance.terms,
     freeBalance.state as ETHBucketAppState,
     freeBalance.nonce,
     freeBalance.timeout,
@@ -295,9 +289,7 @@ function constructInstallOp(
     stateChannel.multisigAddress,
     stateChannel.multisigOwners,
     app.identity,
-    app.terms,
     freeBalance.identity,
-    freeBalance.terms,
     freeBalance.hashOfLatestState,
     freeBalance.nonce,
     freeBalance.timeout,

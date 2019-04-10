@@ -3,9 +3,10 @@ import {
   AppIdentity,
   AppInterface,
   SolidityABIEncoderV2Struct,
-  Terms
+  Interpreter
 } from "@counterfactual/types";
 import { Contract } from "ethers";
+import { AddressZero, HashZero } from "ethers/constants";
 import { BaseProvider } from "ethers/providers";
 import {
   BigNumber,
@@ -17,14 +18,13 @@ import {
 import { Memoize } from "typescript-memoize";
 
 import { appIdentityToHash } from "../ethereum/utils/app-identity";
-import { TERMS } from "../ethereum/utils/encodings";
 
 /**
  * Representation of the values a dependency nonce can take on.
  */
 export enum DependencyValue {
-  NOT_UNINSTALLED = 0,
-  UNINSTALLED = 1
+  NOT_CANCELLED = 0,
+  CANCELLED = 1
 }
 
 export type AppInstanceJson = {
@@ -32,14 +32,13 @@ export type AppInstanceJson = {
   signingKeys: string[];
   defaultTimeout: number;
   appInterface: AppInterface;
-  terms: Terms;
   isVirtualApp: boolean;
   appSeqNo: number;
   rootNonceValue: number;
   latestState: SolidityABIEncoderV2Struct;
   latestNonce: number;
   latestTimeout: number;
-  hasBeenUninstalled: boolean;
+  interpreter: Interpreter;
 };
 
 /**
@@ -60,8 +59,6 @@ export type AppInstanceJson = {
  *           deposits come directly from a multisig or through a virtual app
  *           proxy agreement (ETHVirtualAppAgreement.sol)
 
- * @property terms The terms for which this AppInstance is based on.
-
  * @property latestState The unencoded representation of the latest state.
 
  * @property latestNonce The nonce of the latest signed state update.
@@ -77,27 +74,26 @@ export class AppInstance {
     signingKeys: string[],
     defaultTimeout: number,
     appInterface: AppInterface,
-    terms: Terms,
     isVirtualApp: boolean,
     appSeqNo: number,
     rootNonceValue: number,
     latestState: any,
     latestNonce: number,
-    latestTimeout: number
+    latestTimeout: number,
+    interpreter: Interpreter
   ) {
     this.json = {
       multisigAddress,
       signingKeys,
       defaultTimeout,
       appInterface,
-      terms,
       isVirtualApp,
       appSeqNo,
       rootNonceValue,
       latestState,
       latestNonce,
       latestTimeout,
-      hasBeenUninstalled: false
+      interpreter
     };
   }
 
@@ -116,15 +112,14 @@ export class AppInstance {
       json.signingKeys,
       json.defaultTimeout,
       json.appInterface,
-      json.terms,
       json.isVirtualApp,
       json.appSeqNo,
       json.rootNonceValue,
       latestState,
       json.latestNonce,
-      json.latestTimeout
+      json.latestTimeout,
+      json.interpreter
     );
-    ret.json.hasBeenUninstalled = json.hasBeenUninstalled;
     return ret;
   }
 
@@ -142,12 +137,12 @@ export class AppInstance {
 
   @Memoize()
   public get identity(): AppIdentity {
-    const encodedTerms = defaultAbiCoder.encode([TERMS], [this.json.terms]);
     return {
       owner: this.json.multisigAddress,
       signingKeys: this.json.signingKeys,
       appDefinitionAddress: this.json.appInterface.addr,
-      termsHash: keccak256(encodedTerms),
+      interpreterAddress: AddressZero,
+      interpreterParamsHash: HashZero,
       defaultTimeout: this.json.defaultTimeout
     };
   }
@@ -163,11 +158,6 @@ export class AppInstance {
       [this.json.appInterface.stateEncoding],
       [this.json.latestState]
     );
-  }
-
-  @Memoize()
-  public get encodedTerms() {
-    return defaultAbiCoder.encode([TERMS], [this.json.terms]);
   }
 
   @Memoize()
@@ -188,10 +178,6 @@ export class AppInstance {
 
   // TODO: All these getters seems a bit silly, would be nice to improve
   //       the implementation to make it cleaner.
-
-  public get terms() {
-    return this.json.terms;
-  }
 
   public get state() {
     return this.json.latestState;

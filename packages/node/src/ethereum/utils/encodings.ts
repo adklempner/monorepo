@@ -22,7 +22,8 @@ export const APP_IDENTITY = `
     address owner,
     address[] signingKeys,
     address appDefinitionAddress,
-    bytes32 termsHash,
+    address interpreterAddress,
+    bytes32 interpreterParamsHash,
     uint256 defaultTimeout
   )`;
 

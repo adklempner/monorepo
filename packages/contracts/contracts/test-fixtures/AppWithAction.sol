@@ -1,8 +1,7 @@
 pragma solidity 0.5.7;
 pragma experimental "ABIEncoderV2";
 
-import "../libs/Transfer.sol";
-import "../CounterfactualApp.sol";
+import "../interfaces/CounterfactualApp.sol";
 
 // there is a counter; player2 can unanimously increment it
 
@@ -19,7 +18,7 @@ contract AppWithAction {
     uint256 increment;
   }
 
-  function getTurnTaker(bytes memory encodedState, address[] memory signingKeys)
+  function getTurnTaker(bytes memory encodedState, address[] memory /* signingKeys */)
     public
     pure
     returns (address)
@@ -28,26 +27,12 @@ contract AppWithAction {
     return state.player2;
   }
 
-  function resolve(bytes memory encodedState, Transfer.Terms memory terms)
+  function resolve(bytes memory)
     public
     pure
-    returns (Transfer.Transaction memory)
+    returns (bytes memory)
   {
-    State memory state = abi.decode(encodedState, (State));
-
-    uint256[] memory amounts = new uint256[](2);
-
-    address[] memory to = new address[](2);
-
-    bytes[] memory data = new bytes[](2);
-
-    return Transfer.Transaction(
-      terms.assetType,
-      terms.token,
-      to,
-      amounts,
-      data
-    );
+    return abi.encode(0);
   }
 
   function applyAction(bytes memory encodedState, bytes memory encodedAction)

@@ -1,10 +1,11 @@
 import StateChannelTransaction from "@counterfactual/contracts/build/StateChannelTransaction.json";
-import { AppIdentity, NetworkContext, Terms } from "@counterfactual/types";
+import { AppIdentity, NetworkContext } from "@counterfactual/types";
 import { Interface, keccak256, solidityPack } from "ethers/utils";
 
 import { MultiSendCommitment } from "./multisend-commitment";
 import { MultisigOperation, MultisigTransaction } from "./types";
 import { appIdentityToHash } from "./utils/app-identity";
+import { AddressZero, HashZero } from "ethers/constants";
 
 const iface = new Interface(StateChannelTransaction.abi);
 
@@ -14,9 +15,7 @@ export class InstallCommitment extends MultiSendCommitment {
     public readonly multisig: string,
     public readonly multisigOwners: string[],
     public readonly appIdentity: AppIdentity,
-    public readonly terms: Terms,
     public readonly freeBalanceAppIdentity: AppIdentity,
-    public readonly freeBalanceTerms: Terms,
     public readonly freeBalanceStateHash: string,
     public readonly freeBalanceNonce: number,
     public readonly freeBalanceTimeout: number,
@@ -28,7 +27,6 @@ export class InstallCommitment extends MultiSendCommitment {
       multisig,
       multisigOwners,
       freeBalanceAppIdentity,
-      freeBalanceTerms,
       freeBalanceStateHash,
       freeBalanceNonce,
       freeBalanceTimeout
@@ -62,7 +60,8 @@ export class InstallCommitment extends MultiSendCommitment {
         uninstallKey,
         this.rootNonceValue,
         appIdentityHash,
-        this.terms
+        AddressZero,
+        HashZero
       ]),
       operation: MultisigOperation.DelegateCall
     };

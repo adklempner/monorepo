@@ -223,13 +223,6 @@ function createAndAddTarget(
     signingKeys,
     defaultTimeout,
     appInterface,
-    {
-      assetType: AssetType.ETH,
-      limit: bigNumberify(initiatingBalanceDecrement).add(
-        bigNumberify(respondingBalanceDecrement)
-      ),
-      token: AddressZero // TODO: support tokens
-    },
     true, // sets it to be a virtual app
     sc.numInstalledApps, // app seq no
     0, // root nonce value: virtual app instances do not have rootNonceValue
@@ -288,13 +281,6 @@ function proposeStateTransition1(
 
   const leftETHVirtualAppAgreementInstance = new ETHVirtualAppAgreementInstance(
     channelWithIntermediary.multisigAddress,
-    {
-      assetType: AssetType.ETH,
-      limit: bigNumberify(initiatingBalanceDecrement).add(
-        respondingBalanceDecrement
-      ),
-      token: AddressZero
-    },
     channelWithIntermediary.numInstalledApps,
     channelWithIntermediary.rootNonceValue,
     100,
@@ -392,13 +378,6 @@ function proposeStateTransition2(
 
   const leftEthVirtualAppAgreementInstance = new ETHVirtualAppAgreementInstance(
     channelWithInitiating.multisigAddress,
-    {
-      assetType: AssetType.ETH,
-      limit: bigNumberify(initiatingBalanceDecrement).add(
-        respondingBalanceDecrement
-      ),
-      token: AddressZero
-    },
     channelWithInitiating.numInstalledApps,
     channelWithInitiating.rootNonceValue,
     100,
@@ -410,13 +389,6 @@ function proposeStateTransition2(
 
   const rightEthVirtualAppAgreementInstance = new ETHVirtualAppAgreementInstance(
     channelWithResponding.multisigAddress,
-    {
-      assetType: AssetType.ETH,
-      limit: bigNumberify(initiatingBalanceDecrement).add(
-        respondingBalanceDecrement
-      ),
-      token: AddressZero
-    },
     channelWithResponding.numInstalledApps,
     channelWithResponding.rootNonceValue,
     100,
@@ -512,13 +484,6 @@ function proposeStateTransition3(
 
   const rightEthVirtualAppAgreementInstance = new ETHVirtualAppAgreementInstance(
     channelWithIntermediary.multisigAddress,
-    {
-      assetType: AssetType.ETH,
-      limit: bigNumberify(initiatingBalanceDecrement).add(
-        respondingBalanceDecrement
-      ),
-      token: AddressZero
-    },
     channelWithIntermediary.numInstalledApps,
     channelWithIntermediary.rootNonceValue,
     100,
@@ -571,7 +536,6 @@ function constructETHVirtualAppAgreementCommitment(
     stateChannel.multisigOwners,
     targetHash,
     freeBalance.identity,
-    freeBalance.terms,
     freeBalance.hashOfLatestState,
     freeBalance.nonce,
     freeBalance.timeout,

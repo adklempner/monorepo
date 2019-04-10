@@ -8,8 +8,7 @@ import { INSUFFICIENT_FUNDS } from "ethers/errors";
 import { BigNumber, bigNumberify, formatEther } from "ethers/utils";
 
 import {
-  getETHBucketAppInterface,
-  unlimitedETH
+  getETHBucketAppInterface
 } from "../ethereum/utils/eth-bucket";
 import { xkeyKthAddress, xkeysToSortedKthAddresses } from "../machine/xkeys";
 
@@ -84,7 +83,6 @@ function createETHFreeBalance(
     sortedTopLevelKeys,
     freeBalanceTimeout,
     getETHBucketAppInterface(ethBucketAddress),
-    unlimitedETH,
     false,
     HARD_CODED_ASSUMPTIONS.appSequenceNumberForFreeBalance,
     HARD_CODED_ASSUMPTIONS.rootNonceValueAtFreeBalanceInstall,

@@ -72,7 +72,6 @@ beforeEach(() => {
     stateChannel.multisigOwners,
     10,
     freeBalanceETH.appInterface,
-    freeBalanceETH.terms,
     true,
     5,
     0,

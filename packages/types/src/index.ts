@@ -4,8 +4,8 @@ import {
   AssetType,
   ETHBucketAppState,
   SignedStateHashUpdate,
-  Terms,
-  Transaction
+  Transaction,
+  Interpreter
 } from "./app-instance";
 import {
   AppABIEncodings,
@@ -62,6 +62,6 @@ export {
   INodeProvider,
   Node,
   SignedStateHashUpdate,
-  Terms,
-  Transaction
+  Transaction,
+  Interpreter
 };

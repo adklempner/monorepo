@@ -31,7 +31,6 @@ enum HighRollerStage {
 }
 
 type HighRollerAppState = {
-  playerAddrs: string[];
   stage: HighRollerStage;
   salt: string;
   commitHash: string;
@@ -56,7 +55,6 @@ function decodeBytesToAppState(encodedAppState: string): HighRollerAppState {
   return defaultAbiCoder.decode(
     [
       `tuple(
-        address[2] playerAddrs,
         uint8 stage,
         bytes32 salt,
         bytes32 commitHash,
@@ -76,7 +74,6 @@ describe("HighRollerApp", () => {
       [
         `
         tuple(
-          address[2] playerAddrs,
           uint8 stage,
           bytes32 salt,
           bytes32 commitHash,
@@ -114,8 +111,8 @@ describe("HighRollerApp", () => {
     );
   }
 
-  async function resolve(state: SolidityABIEncoderV2Struct, terms: Terms) {
-    return await highRollerApp.functions.resolve(encodeState(state), terms);
+  async function resolve(state: SolidityABIEncoderV2Struct) {
+    return await highRollerApp.functions.resolve(encodeState(state));
   }
 
   before(async () => {
@@ -127,7 +124,6 @@ describe("HighRollerApp", () => {
   describe("applyAction", () => {
     it("can start game", async () => {
       const preState: HighRollerAppState = {
-        playerAddrs: [AddressZero, AddressZero],
         stage: HighRollerStage.PRE_GAME,
         salt: HashZero,
         commitHash: HashZero,
@@ -148,7 +144,6 @@ describe("HighRollerApp", () => {
 
     it("can commit to hash", async () => {
       const preState: HighRollerAppState = {
-        playerAddrs: [AddressZero, AddressZero],
         stage: HighRollerStage.COMMITTING_HASH,
         salt: HashZero,
         commitHash: HashZero,
@@ -180,7 +175,6 @@ describe("HighRollerApp", () => {
       const hash = computeCommitHash(numberSalt, playerFirstNumber);
 
       const preState: HighRollerAppState = {
-        playerAddrs: [AddressZero, AddressZero],
         stage: HighRollerStage.COMMITTING_NUM,
         salt: HashZero,
         commitHash: hash,
@@ -207,7 +201,6 @@ describe("HighRollerApp", () => {
       const hash = computeCommitHash(numberSalt, playerFirstNumber);
 
       const preState: HighRollerAppState = {
-        playerAddrs: [AddressZero, AddressZero],
         stage: HighRollerStage.REVEALING,
         salt: HashZero,
         commitHash: hash,
@@ -236,7 +229,6 @@ describe("HighRollerApp", () => {
       const hash = computeCommitHash(numberSalt, playerFirstNumber);
 
       const preState: HighRollerAppState = {
-        playerAddrs: [AddressZero, AddressZero],
         stage: HighRollerStage.DONE,
         salt: numberSalt,
         commitHash: hash,
@@ -244,19 +236,9 @@ describe("HighRollerApp", () => {
         playerSecondNumber: 2
       };
 
-      const terms: Terms = {
-        assetType: AssetType.ETH,
-        limit: parseEther("2"),
-        token: AddressZero
-      };
-      const transaction: Transaction = await resolve(preState, terms);
+      const result = await resolve(preState);
 
-      expect(transaction.assetType).to.eq(AssetType.ETH);
-      expect(transaction.token).to.eq(AddressZero);
-      expect(transaction.to).to.deep.eq([AddressZero, AddressZero]);
-      expect(transaction.value[0]).to.eq(Zero);
-      expect(transaction.value[1]).to.eq(parseEther("2"));
-      expect(transaction.data).to.deep.eq(["0x", "0x"]);
+      expect(result).to.eq(1);
     });
 
     /**
@@ -271,7 +253,6 @@ describe("HighRollerApp", () => {
       const hash = computeCommitHash(numberSalt, playerFirstNumber);
 
       const preState: HighRollerAppState = {
-        playerAddrs: [AddressZero, AddressZero],
         stage: HighRollerStage.DONE,
         salt: numberSalt,
         commitHash: hash,
@@ -279,19 +260,9 @@ describe("HighRollerApp", () => {
         playerSecondNumber: 45
       };
 
-      const terms: Terms = {
-        assetType: AssetType.ETH,
-        limit: parseEther("2"),
-        token: AddressZero
-      };
-      const transaction: Transaction = await resolve(preState, terms);
+      const result = await resolve(preState);
 
-      expect(transaction.assetType).to.eq(AssetType.ETH);
-      expect(transaction.token).to.eq(AddressZero);
-      expect(transaction.to).to.deep.eq([AddressZero, AddressZero]);
-      expect(transaction.value[0]).to.eq(parseEther("1"));
-      expect(transaction.value[1]).to.eq(parseEther("1"));
-      expect(transaction.data).to.deep.eq(["0x", "0x"]);
+      expect(result).to.eq(2);
     });
 
     it("can end game - playerFirst wins", async () => {
@@ -301,7 +272,6 @@ describe("HighRollerApp", () => {
       const hash = computeCommitHash(numberSalt, playerFirstNumber);
 
       const preState: HighRollerAppState = {
-        playerAddrs: [AddressZero, AddressZero],
         stage: HighRollerStage.DONE,
         salt: numberSalt,
         commitHash: hash,
@@ -309,19 +279,9 @@ describe("HighRollerApp", () => {
         playerSecondNumber: 2
       };
 
-      const terms: Terms = {
-        assetType: AssetType.ETH,
-        limit: parseEther("2"),
-        token: AddressZero
-      };
-      const transaction: Transaction = await resolve(preState, terms);
+      const result = await resolve(preState);
 
-      expect(transaction.assetType).to.eq(AssetType.ETH);
-      expect(transaction.token).to.eq(AddressZero);
-      expect(transaction.to).to.deep.equal([AddressZero, AddressZero]);
-      expect(transaction.value[0]).to.eq(parseEther("2"));
-      expect(transaction.value[1]).to.eq(Zero);
-      expect(transaction.data).to.deep.equal(["0x", "0x"]);
+      expect(result).to.eq(0);
     });
   });
 });

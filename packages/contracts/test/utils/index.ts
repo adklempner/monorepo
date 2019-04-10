@@ -1,6 +1,7 @@
 import { AppIdentity } from "@counterfactual/types";
 import * as chai from "chai";
 import { solidity } from "ethereum-waffle";
+import { AddressZero, HashZero } from "ethers/constants";
 import { defaultAbiCoder, keccak256, solidityPack } from "ethers/utils";
 
 export const expect = chai.use(solidity).expect;
@@ -76,7 +77,8 @@ export class AppInstance {
       owner: this.owner,
       signingKeys: this.signingKeys,
       appDefinitionAddress: this.appDefinitionAddress,
-      termsHash: this.terms.hashOfPackedEncoding(),
+      interpreterAddress: AddressZero,
+      interpreterParamsHash: HashZero,
       defaultTimeout: this.defaultTimeout
     };
   }
@@ -97,7 +99,8 @@ export class AppInstance {
             address owner,
             address[] signingKeys,
             address appDefinitionAddress,
-            bytes32 termsHash,
+            address interpreterAddress,
+            bytes32 interpreterParamsHash,
             uint256 defaultTimeout
           )`
         ],

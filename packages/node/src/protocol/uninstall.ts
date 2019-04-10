@@ -121,7 +121,6 @@ async function proposeStateTransition(
     newStateChannel.multisigAddress,
     newStateChannel.multisigOwners,
     freeBalance.identity,
-    freeBalance.terms,
     freeBalance.state as ETHBucketAppState,
     freeBalance.nonce,
     freeBalance.timeout,

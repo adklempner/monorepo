@@ -1,8 +1,7 @@
 import {
   AppInterface,
   NetworkContext,
-  SolidityABIEncoderV2Struct,
-  Terms
+  SolidityABIEncoderV2Struct
 } from "@counterfactual/types";
 import { BaseProvider } from "ethers/providers";
 import { BigNumber, Signature } from "ethers/utils";
@@ -78,7 +77,6 @@ export type InstallParams = {
   bobBalanceDecrement: BigNumber;
   signingKeys: string[];
   initialState: SolidityABIEncoderV2Struct;
-  terms: Terms;
   appInterface: AppInterface;
   defaultTimeout: number;
 };

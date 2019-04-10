@@ -1,59 +1,29 @@
 pragma solidity 0.5.7;
 pragma experimental "ABIEncoderV2";
 
-import "../libs/Transfer.sol";
-import "../CounterfactualApp.sol";
-
+// todo: adding is CounterfactualApp makes empty bytecode...
 
 /// @title ResolveToPay5WeiApp
 /// @notice This contract is a test fixture meant to emulate an AppInstance
 /// contract. An AppInstance has a resolve() function that returns a
 /// `Transfer.Transaction` object when the channel is closed.
-contract ResolveToPay5WeiApp is CounterfactualApp {
+contract ResolveToPay5WeiApp {
 
-  function resolve(bytes calldata encodedState, Transfer.Terms calldata terms)
+  function resolve(bytes calldata)
     external
     pure
-    returns (Transfer.Transaction memory)
+    returns (uint256)
   {
-    uint256[] memory amounts = new uint256[](1);
-    amounts[0] = 5 wei;
-
-    address[] memory to = new address[](1);
-    to[0] = address(0);
-
-    bytes[] memory data;
-
-    return Transfer.Transaction(
-      0,
-      address(0),
-      to,
-      amounts,
-      data
-    );
+    return 500;
   }
 
-  function isStateTerminal(bytes memory)
-    public
+  function resolveSelector()
+    external
     pure
-    returns (bool)
+    returns (bytes4)
   {
-    revert("Not implemented");
+    return this.resolve.selector;
   }
 
-  function getTurnTaker(bytes memory, address[] memory)
-    public
-    pure
-    returns (address)
-  {
-    revert("Not implemented");
-  }
 
-  function applyAction(bytes memory encodedState, bytes memory)
-    public
-    pure
-    returns (bytes memory)
-  {
-    return encodedState;
-  }
 }

@@ -1,11 +1,11 @@
-import { AssetType } from "@counterfactual/types";
 import { AddressZero, Zero } from "ethers/constants";
-import { bigNumberify, getAddress, hexlify, randomBytes } from "ethers/utils";
+import { getAddress, hexlify, randomBytes } from "ethers/utils";
 import { fromSeed } from "ethers/utils/hdnode";
 
 import { xkeyKthAddress } from "../../../../../src/machine/xkeys";
 import { AppInstance, StateChannel } from "../../../../../src/models";
 import { generateRandomNetworkContext } from "../../../mocks";
+import { Interpreter } from "@counterfactual/types";
 
 const APP_STATE = {
   foo: AddressZero,
@@ -44,17 +44,13 @@ describe("StateChannel::setState", () => {
         stateEncoding: "tuple(address foo, uint256 bar)",
         actionEncoding: undefined
       },
-      {
-        assetType: AssetType.ETH,
-        limit: bigNumberify(Math.ceil(Math.random() * 2e10)),
-        token: AddressZero
-      },
       false,
       sc1.numInstalledApps,
       0,
       { foo: getAddress(hexlify(randomBytes(20))), bar: 0 },
       Math.ceil(Math.random() * 10000),
-      Math.ceil(1000 * Math.random())
+      Math.ceil(1000 * Math.random()),
+      Interpreter.TwoPartyEthAsLump
     );
 
     sc1 = sc1.installApp(testApp, Zero, Zero);

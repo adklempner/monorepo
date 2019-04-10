@@ -90,7 +90,6 @@ function proposeStateTransition(
     bobBalanceDecrement,
     signingKeys,
     initialState,
-    terms,
     appInterface,
     defaultTimeout,
     multisigAddress
@@ -103,7 +102,6 @@ function proposeStateTransition(
     signingKeys,
     defaultTimeout,
     appInterface,
-    terms,
     // KEY: Sets it to NOT be a virtual app
     false,
     // KEY: The app sequence number
@@ -147,9 +145,7 @@ function constructInstallOp(
     stateChannel.multisigAddress,
     stateChannel.multisigOwners,
     app.identity,
-    app.terms,
     freeBalance.identity,
-    freeBalance.terms,
     freeBalance.hashOfLatestState,
     freeBalance.nonce,
     freeBalance.timeout,

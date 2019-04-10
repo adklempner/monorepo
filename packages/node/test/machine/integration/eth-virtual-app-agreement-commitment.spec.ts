@@ -4,7 +4,7 @@ import ProxyFactory from "@counterfactual/contracts/build/ProxyFactory.json";
 import ResolveToPay5WeiApp from "@counterfactual/contracts/build/ResolveToPay5WeiApp.json";
 import { AssetType, NetworkContext } from "@counterfactual/types";
 import { Contract, ContractFactory, Wallet } from "ethers";
-import { AddressZero, HashZero } from "ethers/constants";
+import { HashZero } from "ethers/constants";
 import { JsonRpcProvider } from "ethers/providers";
 import { BigNumber, Interface, parseEther } from "ethers/utils";
 
@@ -91,12 +91,6 @@ describe("Scenario: install virtual AppInstance, put on-chain", () => {
           stateEncoding: "",
           actionEncoding: undefined
         },
-        {
-          // target app instances do not have a useful terms
-          assetType: AssetType.ETH,
-          limit: new BigNumber(0),
-          token: AddressZero
-        },
         true, // virtual
         0, // app sequence number
         0, // root nonce
@@ -116,7 +110,6 @@ describe("Scenario: install virtual AppInstance, put on-chain", () => {
         multisigOwnerKeys.map(x => x.address), // signing
         targetAppInstance.identityHash, // target
         freeBalanceETH.identity, // fb AI
-        freeBalanceETH.terms, // fb terms
         freeBalanceETH.hashOfLatestState, // fb state hash
         freeBalanceETH.nonce, // fb nonce
         freeBalanceETH.timeout, // fb timeout
@@ -149,8 +142,7 @@ describe("Scenario: install virtual AppInstance, put on-chain", () => {
 
       await appRegistry.functions.setResolution(
         targetAppInstance.identity,
-        targetAppInstance.encodedLatestState,
-        targetAppInstance.encodedTerms
+        targetAppInstance.encodedLatestState
       );
 
       await wallet.sendTransaction({

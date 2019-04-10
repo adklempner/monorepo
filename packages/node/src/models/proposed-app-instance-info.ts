@@ -5,8 +5,7 @@ import {
   AppInterface,
   BlockchainAsset,
   Bytes32,
-  SolidityABIEncoderV2Struct,
-  Terms
+  SolidityABIEncoderV2Struct
 } from "@counterfactual/types";
 import { AddressZero } from "ethers/constants";
 import { BigNumber, bigNumberify } from "ethers/utils";
@@ -93,12 +92,6 @@ export class ProposedAppInstanceInfo implements AppInstanceInfo {
       ...this.abiEncodings
     };
 
-    const proposedTerms: Terms = {
-      assetType: this.asset.assetType,
-      limit: bigNumberify(this.myDeposit).add(bigNumberify(this.peerDeposit)),
-      token: this.asset.token || AddressZero
-    };
-
     let signingKeys: string[];
     let isVirtualApp: boolean;
 
@@ -128,7 +121,6 @@ export class ProposedAppInstanceInfo implements AppInstanceInfo {
       signingKeys,
       bigNumberify(this.timeout).toNumber(),
       proposedAppInterface,
-      proposedTerms,
       isVirtualApp,
       isVirtualApp ? 1337 : stateChannel.numInstalledApps,
       stateChannel.rootNonceValue,

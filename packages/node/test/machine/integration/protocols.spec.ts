@@ -1,5 +1,5 @@
 import ResolveToPay5WeiApp from "@counterfactual/contracts/build/ResolveToPay5WeiApp.json";
-import { AssetType, NetworkContext } from "@counterfactual/types";
+import { NetworkContext } from "@counterfactual/types";
 import { Contract, ContractFactory, Wallet } from "ethers";
 import { AddressZero } from "ethers/constants";
 import { JsonRpcProvider } from "ethers/providers";
@@ -71,11 +71,6 @@ describe("Three mininodes", () => {
         player1: AddressZero,
         player2: AddressZero,
         counter: 0
-      },
-      terms: {
-        assetType: AssetType.ETH,
-        limit: bigNumberify(100),
-        token: AddressZero
       },
       appInterface: {
         addr: appDefinition.address,

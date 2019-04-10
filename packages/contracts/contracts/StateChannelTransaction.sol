@@ -1,10 +1,9 @@
 pragma solidity 0.5.7;
 pragma experimental "ABIEncoderV2";
 
-import "./libs/Transfer.sol";
-
 import "./NonceRegistry.sol";
 import "./AppRegistry.sol";
+import "./interfaces/Interpreter.sol";
 
 
 /// @title StateChannelTransaction
@@ -13,19 +12,17 @@ import "./AppRegistry.sol";
 /// @notice Supports a complex transfer of funds contingent on some condition.
 contract StateChannelTransaction {
 
-  using Transfer for Transfer.Transaction;
-
   /// @notice Execute a fund transfer for a state channel app in a finalized state
   /// @param uninstallKey The key in the nonce registry
   /// @param appIdentityHash AppIdentityHash to be resolved
-  /// @param terms The pre-agreed upon terms of the funds transfer
   function executeAppConditionalTransaction(
     AppRegistry appRegistry,
     NonceRegistry nonceRegistry,
     bytes32 uninstallKey,
     uint256 rootNonceExpectedValue,
     bytes32 appIdentityHash,
-    Transfer.Terms memory terms
+    address interpreterAddress,
+    bytes memory interpreterParams
   )
     public
   {
@@ -48,16 +45,15 @@ contract StateChannelTransaction {
       "App is not finalized yet"
     );
 
-    Transfer.Transaction memory txn = appRegistry.getResolution(
+    bytes memory resolution = appRegistry.getResolution(
       appIdentityHash
     );
 
-    require(
-      Transfer.meetsTerms(txn, terms),
-      "Transfer details do not meet terms"
-    );
-
-    txn.execute();
+    bytes memory payload = abi.encodeWithSignature(
+      "interpret(bytes,bytes)", resolution, interpreterParams);
+    (bool success, bytes memory returnData) =
+      interpreterAddress.delegatecall(payload);
+    require(success);
   }
 
 

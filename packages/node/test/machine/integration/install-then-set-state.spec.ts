@@ -3,9 +3,9 @@ import MinimumViableMultisig from "@counterfactual/contracts/build/MinimumViable
 import ProxyFactory from "@counterfactual/contracts/build/ProxyFactory.json";
 import { AssetType, NetworkContext } from "@counterfactual/types";
 import { Contract, Wallet } from "ethers";
-import { AddressZero, WeiPerEther, Zero } from "ethers/constants";
+import { WeiPerEther, Zero } from "ethers/constants";
 import { JsonRpcProvider } from "ethers/providers";
-import { Interface, keccak256, parseEther } from "ethers/utils";
+import { Interface, keccak256 } from "ethers/utils";
 
 import { InstallCommitment, SetStateCommitment } from "../../../src/ethereum";
 import { xkeysToSortedKthSigningKeys } from "../../../src/machine/xkeys";
@@ -98,11 +98,6 @@ describe("Scenario: install AppInstance, set state, put on-chain", () => {
         uniqueAppSigningKeys.map(x => x.address),
         freeBalanceETH.defaultTimeout, // Re-use ETH FreeBalance timeout
         freeBalanceETH.appInterface, // Re-use the ETHBucket App
-        {
-          assetType: AssetType.ETH,
-          limit: parseEther("2"),
-          token: AddressZero
-        },
         false,
         stateChannel.numInstalledApps,
         stateChannel.rootNonceValue,
@@ -141,8 +136,7 @@ describe("Scenario: install AppInstance, set state, put on-chain", () => {
 
       await appRegistry.functions.setResolution(
         appInstance.identity,
-        appInstance.encodedLatestState,
-        appInstance.encodedTerms
+        appInstance.encodedLatestState
       );
 
       const installCommitment = new InstallCommitment(
@@ -150,9 +144,7 @@ describe("Scenario: install AppInstance, set state, put on-chain", () => {
         stateChannel.multisigAddress,
         stateChannel.multisigOwners,
         appInstance.identity,
-        appInstance.terms,
         freeBalanceETH.identity,
-        freeBalanceETH.terms,
         freeBalanceETH.hashOfLatestState,
         freeBalanceETH.nonce,
         freeBalanceETH.timeout,

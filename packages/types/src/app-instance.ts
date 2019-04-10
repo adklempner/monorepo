@@ -7,11 +7,10 @@ export enum AssetType {
   ERC20 = 1
 }
 
-export type Terms = {
-  assetType: AssetType;
-  limit: BigNumber;
-  token: Address;
-};
+export enum Interpreter {
+  TwoPartyEthAsLump = "TwoPartyEthAsLump",
+  ETHInterpreter = "ETHInterpreter"
+}
 
 export type Transaction = {
   assetType: AssetType;
@@ -26,7 +25,8 @@ export type AppIdentity = {
   owner: string;
   signingKeys: string[];
   appDefinitionAddress: string;
-  termsHash: string;
+  interpreterAddress: string;
+  interpreterParamsHash: string;
   defaultTimeout: number;
 };
 

@@ -1,6 +1,6 @@
-import { AssetType, ETHBucketAppState } from "@counterfactual/types";
-import { AddressZero, Zero } from "ethers/constants";
-import { bigNumberify, getAddress, hexlify, randomBytes } from "ethers/utils";
+import { AssetType, ETHBucketAppState, Interpreter } from "@counterfactual/types";
+import { Zero } from "ethers/constants";
+import { getAddress, hexlify, randomBytes } from "ethers/utils";
 import { fromSeed } from "ethers/utils/hdnode";
 
 import { xkeyKthAddress } from "../../../../../src/machine/xkeys";
@@ -39,17 +39,13 @@ describe("StateChannel::uninstallApp", () => {
         stateEncoding: "tuple(address foo, uint256 bar)",
         actionEncoding: undefined
       },
-      {
-        assetType: AssetType.ETH,
-        limit: bigNumberify(Math.ceil(Math.random() * 2e10)),
-        token: AddressZero
-      },
       false,
       sc1.numInstalledApps,
       0,
       { foo: getAddress(hexlify(randomBytes(20))), bar: 0 },
       999, // <------ nonce
-      Math.ceil(1000 * Math.random())
+      Math.ceil(1000 * Math.random()),
+      Interpreter.TwoPartyEthAsLump
     );
 
     sc1 = sc1.installApp(testApp, Zero, Zero);

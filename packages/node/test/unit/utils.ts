@@ -2,7 +2,8 @@ import {
   AppABIEncodings,
   AssetType,
   BlockchainAsset,
-  SolidityABIEncoderV2Struct
+  SolidityABIEncoderV2Struct,
+  Interpreter
 } from "@counterfactual/types";
 import { Wallet } from "ethers";
 import { AddressZero, One, Zero } from "ethers/constants";
@@ -55,17 +56,12 @@ export function createAppInstance() {
       stateEncoding: "tuple(address foo, uint256 bar)",
       actionEncoding: undefined
     },
-    {
-      assetType: AssetType.ETH,
-      limit: bigNumberify(2),
-      token: AddressZero
-    },
     false,
-    // TODO: this should be thread-safe
-    1,
+    /* appSeqNo */ Math.ceil(1000 * Math.random()),
     0,
     { foo: AddressZero, bar: bigNumberify(0) },
     0,
-    0
+    Math.ceil(1000 * Math.random()),
+    Interpreter.TwoPartyEthAsLump
   );
 }

@@ -1,5 +1,5 @@
 import StateChannelTransaction from "@counterfactual/contracts/build/StateChannelTransaction.json";
-import { AppIdentity, NetworkContext, Terms } from "@counterfactual/types";
+import { AppIdentity, NetworkContext } from "@counterfactual/types";
 import {
   defaultAbiCoder,
   Interface,
@@ -12,6 +12,7 @@ import { DependencyValue } from "../models/app-instance";
 import { MultisigCommitment } from "./multisig-commitment";
 import { MultisigOperation, MultisigTransaction } from "./types";
 import { appIdentityToHash } from "./utils/app-identity";
+import { AddressZero, HashZero } from "ethers/constants";
 
 const iface = new Interface(StateChannelTransaction.abi);
 
@@ -21,7 +22,6 @@ export class SetupCommitment extends MultisigCommitment {
     public readonly multisigAddress: string,
     public readonly multisigOwners: string[],
     public readonly freeBalanceAppIdentity: AppIdentity,
-    public readonly freeBalanceTerms: Terms
   ) {
     super(multisigAddress, multisigOwners);
   }
@@ -38,7 +38,8 @@ export class SetupCommitment extends MultisigCommitment {
         //       when creating the setup commitment
         0,
         appIdentityToHash(this.freeBalanceAppIdentity),
-        this.freeBalanceTerms
+        AddressZero,
+        HashZero
       ]),
       operation: MultisigOperation.DelegateCall
     };
@@ -60,7 +61,7 @@ export class SetupCommitment extends MultisigCommitment {
 
   private getSaltForDependencyNonce() {
     return keccak256(
-      defaultAbiCoder.encode(["uint256"], [DependencyValue.NOT_UNINSTALLED])
+      defaultAbiCoder.encode(["uint256"], [DependencyValue.NOT_CANCELLED])
     );
   }
 }

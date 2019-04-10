@@ -19,7 +19,7 @@ type NimAppState = {
 
 function decodeBytesToAppState(encodedAppState: string): NimAppState {
   return defaultAbiCoder.decode(
-    ["tuple(address[2] players, uint256 turnNum, uint256[3] pileHeights)"],
+    ["tuple(uint256 turnNum, uint256[3] pileHeights)"],
     encodedAppState
   )[0];
 }
@@ -32,7 +32,6 @@ describe("Nim", () => {
       [
         `
         tuple(
-          address[2] players,
           uint256 turnNum,
           uint256[3] pileHeights
         )
@@ -73,6 +72,9 @@ describe("Nim", () => {
   before(async () => {
     const provider = waffle.createMockProvider();
     const wallet = (await waffle.getWallets(provider))[0];
+    if (!NimApp.bytecode) {
+      throw Error("empty bytecode");
+    }
     nim = await waffle.deployContract(wallet, NimApp);
   });
 
@@ -142,7 +144,6 @@ describe("Nim", () => {
   describe("isFinal", () => {
     it("empty state is final", async () => {
       const preState = {
-        players: [AddressZero, AddressZero],
         turnNum: 49,
         pileHeights: [0, 0, 0]
       };
@@ -151,7 +152,6 @@ describe("Nim", () => {
 
     it("nonempty state is not final", async () => {
       const preState = {
-        players: [AddressZero, AddressZero],
         turnNum: 49,
         pileHeights: [0, 1, 0]
       };

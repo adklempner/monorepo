@@ -29,14 +29,6 @@ export interface Transaction {
   data: string[];
 }
 
-export interface AppIdentity {
-  owner: string;
-  signingKeys: string[];
-  appDefinitionAddress: string;
-  termsHash: string;
-  defaultTimeout: number;
-}
-
 export interface SignedStateHashUpdate {
   stateHash: string;
   nonce: number;

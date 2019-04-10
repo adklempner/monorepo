@@ -1,9 +1,8 @@
 import {
-  AssetType,
   Node,
   SolidityABIEncoderV2Struct
 } from "@counterfactual/types";
-import { AddressZero, MaxUint256, Zero } from "ethers/constants";
+import { Zero } from "ethers/constants";
 import { TransactionRequest, TransactionResponse } from "ethers/providers";
 import { BigNumber, bigNumberify } from "ethers/utils";
 
@@ -60,12 +59,6 @@ export async function installBalanceRefundApp(
       aliceBalanceDecrement: Zero,
       bobBalanceDecrement: Zero,
       signingKeys: stateChannel.getNextSigningKeys(),
-      terms: {
-        // TODO: generalize
-        assetType: AssetType.ETH,
-        limit: MaxUint256,
-        token: AddressZero
-      },
       appInterface: {
         addr: networkContext.ETHBalanceRefundApp,
         stateEncoding:

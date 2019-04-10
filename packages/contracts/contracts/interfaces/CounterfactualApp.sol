@@ -1,9 +1,6 @@
 pragma solidity 0.5.7;
 pragma experimental "ABIEncoderV2";
 
-import "./libs/Transfer.sol";
-
-
 interface CounterfactualApp {
 
   function isStateTerminal(bytes calldata)
@@ -21,9 +18,14 @@ interface CounterfactualApp {
     pure
     returns (bytes memory);
 
-  function resolve(bytes calldata, Transfer.Terms calldata)
+  function resolve(bytes calldata)
     external
     pure
-    returns (Transfer.Transaction memory);
+    returns (bytes memory);
+
+  function resolveSelector()
+    external
+    pure
+    returns (bytes4);
 
 }

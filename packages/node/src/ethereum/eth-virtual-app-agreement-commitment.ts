@@ -2,8 +2,7 @@ import ETHVirtualAppAgreement from "@counterfactual/contracts/build/ETHVirtualAp
 import {
   AppIdentity,
   AssetType,
-  NetworkContext,
-  Terms
+  NetworkContext
 } from "@counterfactual/types";
 import { AddressZero } from "ethers/constants";
 import { BigNumber, getAddress, Interface } from "ethers/utils";
@@ -20,7 +19,6 @@ export class ETHVirtualAppAgreementCommitment extends MultiSendCommitment {
     public readonly multisigOwners: string[],
     public readonly targetAppIdentityHash: string,
     public readonly freeBalanceAppIdentity: AppIdentity,
-    public readonly freeBalanceTerms: Terms,
     public readonly freeBalanceStateHash: string,
     public readonly freeBalanceNonce: number,
     public readonly freeBalanceTimeout: number,
@@ -36,7 +34,6 @@ export class ETHVirtualAppAgreementCommitment extends MultiSendCommitment {
       multisig,
       multisigOwners,
       freeBalanceAppIdentity,
-      freeBalanceTerms,
       freeBalanceStateHash,
       freeBalanceNonce,
       freeBalanceTimeout
