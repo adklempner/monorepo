@@ -3,6 +3,7 @@ import { BigNumber } from "ethers/utils";
 
 import { AssetType } from "./app-instance";
 import { ABIEncoding, Address, AppInstanceID } from "./simple-types";
+import { Interpreter } from ".";
 
 export type AppInstanceInfo = {
   id: AppInstanceID;
@@ -12,8 +13,10 @@ export type AppInstanceInfo = {
   myDeposit: BigNumber;
   peerDeposit: BigNumber;
   timeout: BigNumber;
-  proposedByIdentifier: Address;
-  proposedToIdentifier: Address;
+  proposedByIdentifier: string; // xpub
+  proposedToIdentifier: string; // xpub
+  interpreter: Interpreter;
+  interpreterParams: any;
   intermediaries?: Address[];
 };
 

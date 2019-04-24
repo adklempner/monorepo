@@ -39,6 +39,7 @@ export type AppInstanceJson = {
   latestNonce: number;
   latestTimeout: number;
   interpreter: Interpreter;
+  interpreterParams: any
 };
 
 /**
@@ -80,7 +81,8 @@ export class AppInstance {
     latestState: any,
     latestNonce: number,
     latestTimeout: number,
-    interpreter: Interpreter
+    interpreter: Interpreter,
+    interpreterParams: any
   ) {
     this.json = {
       multisigAddress,
@@ -93,7 +95,8 @@ export class AppInstance {
       latestState,
       latestNonce,
       latestTimeout,
-      interpreter
+      interpreter,
+      interpreterParams
     };
   }
 
@@ -118,7 +121,8 @@ export class AppInstance {
       latestState,
       json.latestNonce,
       json.latestTimeout,
-      json.interpreter
+      json.interpreter,
+      json.interpreterParams
     );
     return ret;
   }

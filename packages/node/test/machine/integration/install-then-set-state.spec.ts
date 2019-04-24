@@ -104,7 +104,8 @@ describe("Scenario: install AppInstance, set state, put on-chain", () => {
         state,
         0,
         freeBalanceETH.timeout, // Re-use ETH FreeBalance timeout
-        Interpreter.None
+        Interpreter.None,
+        null
       );
 
       stateChannel = stateChannel.installApp(

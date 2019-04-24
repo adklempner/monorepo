@@ -289,6 +289,7 @@ export namespace Node {
   export type Message = MethodRequest | MethodResponse | Event | Error;
 }
 
+// keep in sync with cf.js/src/app-factory.ts
 export namespace cf {
   export type AppFactory = {
     new (
@@ -311,6 +312,7 @@ export namespace cf {
       initialState: SolidityABIEncoderV2Struct;
       intermediaries: Address[];
       timeout: number;
+      interpreterParams: any;
     }): Promise<AppInstanceID>;
   };
 

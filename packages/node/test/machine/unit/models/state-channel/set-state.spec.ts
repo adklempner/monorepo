@@ -50,7 +50,8 @@ describe("StateChannel::setState", () => {
       { foo: getAddress(hexlify(randomBytes(20))), bar: 0 },
       Math.ceil(Math.random() * 10000),
       Math.ceil(1000 * Math.random()),
-      Interpreter.TwoPartyEthAsLump
+      Interpreter.TwoPartyEthAsLump,
+      null
     );
 
     sc1 = sc1.installApp(testApp, Zero, Zero);

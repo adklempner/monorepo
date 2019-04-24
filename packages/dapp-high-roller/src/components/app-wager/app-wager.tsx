@@ -6,6 +6,7 @@ import { RouterHistory } from "@stencil/router";
 import CounterfactualTunnel from "../../data/counterfactual";
 import { HighRollerAppState, HighRollerStage } from "../../data/game-types";
 import { Address, AppInstanceInfo, cf } from "../../data/types";
+import { Interpreter } from "@counterfactual/types";
 
 const { HashZero } = ethers.constants;
 
@@ -62,23 +63,11 @@ export class AppWager {
 
     try {
       const initialState: HighRollerAppState = {
-        playerAddrs: [
-          ethers.utils.HDNode.fromExtendedKey(
-            this.account.user.nodeAddress
-          ).derivePath("0").address,
-          ethers.utils.HDNode.fromExtendedKey(
-            this.opponent.attributes.nodeAddress
-          ).derivePath("0").address
-        ],
         stage: HighRollerStage.PRE_GAME,
         salt: HashZero,
         commitHash: HashZero,
         playerFirstNumber: 0,
         playerSecondNumber: 0
-        // playerNames: [
-        //   this.account.user.username,
-        //   this.opponent.attributes.username
-        // ]
       };
 
       const currentEthBalance = ethers.utils.parseEther(this.account.balance);
@@ -108,7 +97,16 @@ export class AppWager {
         peerDeposit: ethers.utils.parseEther(this.betAmount),
         myDeposit: ethers.utils.parseEther(this.betAmount),
         timeout: 172800,
-        intermediaries: [this.intermediary]
+        intermediaries: [this.intermediary],
+        interpreter: Interpreter.TwoPartyLumpAsEth,
+        interpreterParams: [
+          ethers.utils.HDNode.fromExtendedKey(
+            this.account.user.nodeAddress
+          ).derivePath("0").address,
+          ethers.utils.HDNode.fromExtendedKey(
+            this.opponent.attributes.nodeAddress
+          ).derivePath("0").address
+        ],
       });
 
       this.isWaiting = true;

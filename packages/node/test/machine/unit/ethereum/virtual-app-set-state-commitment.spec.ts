@@ -47,7 +47,8 @@ describe("Virtual App Set State Commitment", () => {
     { foo: AddressZero, bar: 0 },
     0,
     Math.ceil(1000 * Math.random()),
-    Interpreter.TwoPartyEthAsLump
+    Interpreter.TwoPartyEthAsLump,
+    null
   );
 
   beforeAll(() => {

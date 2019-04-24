@@ -23,7 +23,11 @@ export async function computeFreeBalanceIncrements(
     appInstance.encodedLatestState
   );
 
-  // todo(xuanji): retry logic here
+  /// todo(xuanji)
+  /// there used to be a bunch of retry logic here, to handle the case where
+  /// the appDefinition contract was deployed recently (and hence the provider
+  /// sometimes returning an incorrect definition). This TODO is to handle
+  /// that situation.
 
   console.log("resolution=", resolution, defaultAbiCoder.decode(["uint256"], resolution));
 

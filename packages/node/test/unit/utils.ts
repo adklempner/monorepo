@@ -62,6 +62,7 @@ export function createAppInstance() {
     { foo: AddressZero, bar: bigNumberify(0) },
     0,
     Math.ceil(1000 * Math.random()),
-    Interpreter.TwoPartyEthAsLump
+    Interpreter.TwoPartyEthAsLump,
+    null
   );
 }

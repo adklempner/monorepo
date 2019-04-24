@@ -188,7 +188,8 @@ function addInstallRefundAppCommitmentToContext(
     },
     0,
     1008,
-    Interpreter.ETHInterpreter
+    Interpreter.ETHInterpreter,
+    amount
   );
 
   let aliceBalanceDecrement = Zero;

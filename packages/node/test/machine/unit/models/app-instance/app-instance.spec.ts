@@ -26,7 +26,8 @@ describe("AppInstance", () => {
       { foo: getAddress(hexlify(randomBytes(20))), bar: 0 },
       999, // <------ nonce
       Math.ceil(1000 * Math.random()),
-      Interpreter.TwoPartyEthAsLump
+      Interpreter.TwoPartyEthAsLump,
+      null
     );
 
     expect(appInstance).not.toBe(null);

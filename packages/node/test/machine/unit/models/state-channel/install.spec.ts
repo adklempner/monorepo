@@ -46,7 +46,8 @@ describe("StateChannel::uninstallApp", () => {
       { foo: getAddress(hexlify(randomBytes(20))), bar: 0 },
       999, // <------ nonce
       Math.ceil(1000 * Math.random()),
-      Interpreter.TwoPartyEthAsLump
+      Interpreter.TwoPartyEthAsLump,
+      null
     );
 
     appIdentityHash = appInstance.identityHash;

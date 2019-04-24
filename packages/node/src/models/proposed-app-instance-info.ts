@@ -128,7 +128,8 @@ export class ProposedAppInstanceInfo implements AppInstanceInfo {
       this.initialState,
       0,
       bigNumberify(this.timeout).toNumber(),
-      Interpreter.None // todo(xuanji)
+      Interpreter.None, // todo(xuanji)
+      null
     );
 
     return proposedAppInstance.identityHash;

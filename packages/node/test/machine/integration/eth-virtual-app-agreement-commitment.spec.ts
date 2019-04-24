@@ -97,7 +97,8 @@ describe("Scenario: install virtual AppInstance, put on-chain", () => {
         {}, // latest state
         1, // latest nonce
         0, // latest timeout
-        Interpreter.None
+        Interpreter.None,
+        null
       );
 
       const beneficiaries = [

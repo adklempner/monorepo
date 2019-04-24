@@ -3,6 +3,7 @@ import {
   AppABIEncodings,
   AppInstanceID,
   BlockchainAsset,
+  Interpreter,
   Node,
   SolidityABIEncoderV2Struct
 } from "@counterfactual/types";
@@ -98,7 +99,7 @@ export class AppFactory {
    * @return ID of proposed app instance
    */
   async proposeInstallVirtual(params: {
-    /** Xpub of peer being proposed to install instance with */
+    /** xpub of peer being proposed to install instance with */
     proposedToIdentifier: string;
     /** Asset to use for deposit */
     asset: BlockchainAsset;
@@ -112,6 +113,9 @@ export class AppFactory {
     initialState: SolidityABIEncoderV2Struct;
     /** List of intermediary peers to route installation through */
     intermediaries: string[];
+    /** TBW **/
+    interpreter: Interpreter;
+    interpreterParams: any;
   }): Promise<AppInstanceID> {
     const timeout = parseBigNumber(params.timeout, "timeout");
     const myDeposit = parseBigNumber(params.myDeposit, "myDeposit");
