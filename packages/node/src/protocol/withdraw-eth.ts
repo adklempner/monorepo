@@ -1,7 +1,8 @@
 import {
   AssetType,
   ETHBucketAppState,
-  NetworkContext
+  NetworkContext,
+  Interpreter
 } from "@counterfactual/types";
 import { Zero } from "ethers/constants";
 
@@ -186,7 +187,8 @@ function addInstallRefundAppCommitmentToContext(
       threshold: amount
     },
     0,
-    1008
+    1008,
+    Interpreter.ETHInterpreter
   );
 
   let aliceBalanceDecrement = Zero;

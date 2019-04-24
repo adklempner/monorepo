@@ -8,6 +8,7 @@ export enum AssetType {
 }
 
 export enum Interpreter {
+  None = "None",
   TwoPartyEthAsLump = "TwoPartyEthAsLump",
   ETHInterpreter = "ETHInterpreter"
 }

@@ -1,7 +1,7 @@
 import AppRegistry from "@counterfactual/contracts/build/AppRegistry.json";
 import MinimumViableMultisig from "@counterfactual/contracts/build/MinimumViableMultisig.json";
 import ProxyFactory from "@counterfactual/contracts/build/ProxyFactory.json";
-import { AssetType, NetworkContext } from "@counterfactual/types";
+import { AssetType, NetworkContext, Interpreter } from "@counterfactual/types";
 import { Contract, Wallet } from "ethers";
 import { WeiPerEther, Zero } from "ethers/constants";
 import { JsonRpcProvider } from "ethers/providers";
@@ -103,7 +103,8 @@ describe("Scenario: install AppInstance, set state, put on-chain", () => {
         stateChannel.rootNonceValue,
         state,
         0,
-        freeBalanceETH.timeout // Re-use ETH FreeBalance timeout
+        freeBalanceETH.timeout, // Re-use ETH FreeBalance timeout
+        Interpreter.None
       );
 
       stateChannel = stateChannel.installApp(

@@ -1,4 +1,4 @@
-import { AssetType, NetworkContext } from "@counterfactual/types";
+import { AssetType, NetworkContext, Interpreter } from "@counterfactual/types";
 
 import { InstallCommitment } from "../ethereum";
 import { ProtocolExecutionFlow } from "../machine";
@@ -110,7 +110,8 @@ function proposeStateTransition(
     initialState,
     // KEY: Set the nonce to be 0
     0,
-    defaultTimeout
+    defaultTimeout,
+    Interpreter.None
   );
 
   const newStateChannel = stateChannel.installApp(

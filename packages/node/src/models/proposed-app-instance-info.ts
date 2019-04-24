@@ -5,7 +5,8 @@ import {
   AppInterface,
   BlockchainAsset,
   Bytes32,
-  SolidityABIEncoderV2Struct
+  SolidityABIEncoderV2Struct,
+  Interpreter
 } from "@counterfactual/types";
 import { AddressZero } from "ethers/constants";
 import { BigNumber, bigNumberify } from "ethers/utils";
@@ -126,7 +127,8 @@ export class ProposedAppInstanceInfo implements AppInstanceInfo {
       stateChannel.rootNonceValue,
       this.initialState,
       0,
-      bigNumberify(this.timeout).toNumber()
+      bigNumberify(this.timeout).toNumber(),
+      Interpreter.None // todo(xuanji)
     );
 
     return proposedAppInstance.identityHash;

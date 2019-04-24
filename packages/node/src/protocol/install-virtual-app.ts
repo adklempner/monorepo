@@ -2,7 +2,8 @@ import {
   AppInterface,
   AssetType,
   NetworkContext,
-  SolidityABIEncoderV2Struct
+  SolidityABIEncoderV2Struct,
+  Interpreter
 } from "@counterfactual/types";
 import { AddressZero } from "ethers/constants";
 import { bigNumberify, BigNumberish } from "ethers/utils";
@@ -228,7 +229,8 @@ function createAndAddTarget(
     0, // root nonce value: virtual app instances do not have rootNonceValue
     initialState,
     0, // app nonce
-    defaultTimeout
+    defaultTimeout,
+    Interpreter.None
   );
 
   const newStateChannel = sc.addVirtualAppInstance(target);

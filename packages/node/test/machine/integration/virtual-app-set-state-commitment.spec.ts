@@ -1,5 +1,5 @@
 import AppRegistry from "@counterfactual/contracts/build/AppRegistry.json";
-import { AssetType, NetworkContext } from "@counterfactual/types";
+import { AssetType, NetworkContext, Interpreter } from "@counterfactual/types";
 import * as chai from "chai";
 import * as matchers from "ethereum-waffle/dist/matchers/matchers";
 import { Contract, Wallet } from "ethers";
@@ -77,7 +77,8 @@ beforeEach(() => {
     0,
     freeBalanceETH.toJson().latestState,
     freeBalanceETH.toJson().latestNonce,
-    freeBalanceETH.timeout
+    freeBalanceETH.timeout,
+    Interpreter.None
   );
 
   intermediaryCommitment = new VirtualAppSetStateCommitment(

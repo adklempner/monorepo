@@ -1,7 +1,8 @@
 import {
   AssetType,
   ETHBucketAppState,
-  SolidityABIEncoderV2Struct
+  SolidityABIEncoderV2Struct,
+  Interpreter
 } from "@counterfactual/types";
 import { Zero } from "ethers/constants";
 import { INSUFFICIENT_FUNDS } from "ethers/errors";
@@ -93,7 +94,8 @@ function createETHFreeBalance(
       bobBalance: Zero
     },
     0,
-    HARD_CODED_ASSUMPTIONS.freeBalanceInitialStateTimeout
+    HARD_CODED_ASSUMPTIONS.freeBalanceInitialStateTimeout,
+    Interpreter.ETHInterpreter
   );
 }
 

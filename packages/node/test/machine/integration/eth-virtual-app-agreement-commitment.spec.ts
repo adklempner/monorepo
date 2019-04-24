@@ -2,7 +2,7 @@ import AppRegistry from "@counterfactual/contracts/build/AppRegistry.json";
 import MinimumViableMultisig from "@counterfactual/contracts/build/MinimumViableMultisig.json";
 import ProxyFactory from "@counterfactual/contracts/build/ProxyFactory.json";
 import ResolveToPay5WeiApp from "@counterfactual/contracts/build/ResolveToPay5WeiApp.json";
-import { AssetType, NetworkContext } from "@counterfactual/types";
+import { AssetType, NetworkContext, Interpreter } from "@counterfactual/types";
 import { Contract, ContractFactory, Wallet } from "ethers";
 import { HashZero } from "ethers/constants";
 import { JsonRpcProvider } from "ethers/providers";
@@ -96,7 +96,8 @@ describe("Scenario: install virtual AppInstance, put on-chain", () => {
         0, // root nonce
         {}, // latest state
         1, // latest nonce
-        0 // latest timeout
+        0, // latest timeout
+        Interpreter.None
       );
 
       const beneficiaries = [
