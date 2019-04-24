@@ -3,7 +3,6 @@ import {
   AppABIEncodings,
   AppInstanceID,
   BlockchainAsset,
-  Interpreter,
   Node,
   SolidityABIEncoderV2Struct
 } from "@counterfactual/types";
@@ -113,9 +112,6 @@ export class AppFactory {
     initialState: SolidityABIEncoderV2Struct;
     /** List of intermediary peers to route installation through */
     intermediaries: string[];
-    /** TBW **/
-    interpreter: Interpreter;
-    interpreterParams: any;
   }): Promise<AppInstanceID> {
     const timeout = parseBigNumber(params.timeout, "timeout");
     const myDeposit = parseBigNumber(params.myDeposit, "myDeposit");

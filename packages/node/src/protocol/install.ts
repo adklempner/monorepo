@@ -111,7 +111,9 @@ function proposeStateTransition(
     // KEY: Set the nonce to be 0
     0,
     defaultTimeout,
-    Interpreter.None
+    // todo(xuanji)
+    Interpreter.None,
+    null
   );
 
   const newStateChannel = stateChannel.installApp(

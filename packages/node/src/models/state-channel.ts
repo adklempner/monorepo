@@ -4,7 +4,7 @@ import {
   SolidityABIEncoderV2Struct,
   Interpreter
 } from "@counterfactual/types";
-import { Zero } from "ethers/constants";
+import { Zero, MaxUint256 } from "ethers/constants";
 import { INSUFFICIENT_FUNDS } from "ethers/errors";
 import { BigNumber, bigNumberify, formatEther } from "ethers/utils";
 
@@ -87,15 +87,22 @@ function createETHFreeBalance(
     false,
     HARD_CODED_ASSUMPTIONS.appSequenceNumberForFreeBalance,
     HARD_CODED_ASSUMPTIONS.rootNonceValueAtFreeBalanceInstall,
-    {
-      alice: beneficiaryForPerson1,
-      bob: beneficiaryForPerson2,
-      aliceBalance: Zero,
-      bobBalance: Zero
-    },
+    [
+      {
+        to: beneficiaryForPerson1,
+        amount: Zero
+      },
+      {
+        to: beneficiaryForPerson2,
+        amount: Zero
+      }
+    ],
     0,
     HARD_CODED_ASSUMPTIONS.freeBalanceInitialStateTimeout,
-    Interpreter.ETHInterpreter
+    Interpreter.ETHInterpreter,
+    {
+      limit: MaxUint256
+    }
   );
 }
 

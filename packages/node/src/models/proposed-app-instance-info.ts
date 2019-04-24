@@ -66,6 +66,8 @@ export class ProposedAppInstanceInfo implements AppInstanceInfo {
   initialState: SolidityABIEncoderV2Struct;
   proposedByIdentifier: string;
   proposedToIdentifier: string;
+  interpreter: Interpreter;
+  interpreterParams: any;
   intermediaries?: string[];
 
   constructor(
@@ -84,6 +86,8 @@ export class ProposedAppInstanceInfo implements AppInstanceInfo {
     this.initialState = proposeParams.initialState;
     this.intermediaries = proposeParams.intermediaries;
     this.id = overrideId || this.getIdentityHashFor(channel!);
+    this.interpreter = Interpreter.None;
+    this.interpreterParams = null;
   }
 
   // TODO: Note the construction of this is duplicated from the machine

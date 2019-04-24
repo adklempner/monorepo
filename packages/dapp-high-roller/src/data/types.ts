@@ -312,7 +312,6 @@ export namespace cf {
       initialState: SolidityABIEncoderV2Struct;
       intermediaries: Address[];
       timeout: number;
-      interpreterParams: any;
     }): Promise<AppInstanceID>;
   };
 

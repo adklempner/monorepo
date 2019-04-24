@@ -97,16 +97,7 @@ export class AppWager {
         peerDeposit: ethers.utils.parseEther(this.betAmount),
         myDeposit: ethers.utils.parseEther(this.betAmount),
         timeout: 172800,
-        intermediaries: [this.intermediary],
-        interpreter: Interpreter.TwoPartyLumpAsEth,
-        interpreterParams: [
-          ethers.utils.HDNode.fromExtendedKey(
-            this.account.user.nodeAddress
-          ).derivePath("0").address,
-          ethers.utils.HDNode.fromExtendedKey(
-            this.opponent.attributes.nodeAddress
-          ).derivePath("0").address
-        ],
+        intermediaries: [this.intermediary]
       });
 
       this.isWaiting = true;

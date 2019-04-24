@@ -230,7 +230,8 @@ function createAndAddTarget(
     initialState,
     0, // app nonce
     defaultTimeout,
-    Interpreter.None
+    Interpreter.None,
+    null
   );
 
   const newStateChannel = sc.addVirtualAppInstance(target);
